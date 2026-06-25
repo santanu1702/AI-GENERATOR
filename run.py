@@ -1,30 +1,26 @@
 """
-run.py – Single entry point.
+run.py – Single entry point (FIXED VERSION)
 
-Fixes for Python 3.12+ / 3.14 compatibility:
-1. Create and set an explicit event loop BEFORE importing Pyrogram
-   (asyncio.get_event_loop() no longer auto-creates a loop in 3.10+)
-2. Start Flask health-check server in a background daemon thread
-3. Run the Pyrogram bot inside the explicit event loop
+- Python 3.10+ compatible
+- No event loop closed error
+- Clean Pyrogram run system
 """
 
 import asyncio
 import logging
 import sys
 
-# ── CRITICAL: create event loop before ANY pyrogram import ──────────────────
-# Python 3.10+ no longer auto-creates a loop; Pyrogram 2.x calls
-# asyncio.get_event_loop() at import time via sync.py, which raises
-# RuntimeError on 3.12+ / 3.14 if no loop exists yet.
+# ── FIX: create event loop BEFORE importing pyrogram ────────────────────────
 if sys.platform == "win32":
-    _loop = asyncio.ProactorEventLoop()
+    loop = asyncio.ProactorEventLoop()
 else:
-    _loop = asyncio.new_event_loop()
-asyncio.set_event_loop(_loop)
+    loop = asyncio.new_event_loop()
 
-# ── Now it is safe to import Pyrogram ────────────────────────────────────────
-from server import start_server   # noqa: E402
-from main import main, post_init  # noqa: E402
+asyncio.set_event_loop(loop)
+
+# ── Safe imports after loop setup ───────────────────────────────────────────
+from server import start_server
+from main import main, post_init
 
 logging.basicConfig(
     level=logging.INFO,
@@ -40,7 +36,8 @@ async def run_bot():
     await app.start()
     await post_init(app)
 
-    logger.info("Bot is running. Press Ctrl+C to stop.")
+    logger.info("Bot is running...")
+
     from pyrogram.idle import idle
     await idle()
 
@@ -48,13 +45,14 @@ async def run_bot():
 
 
 if __name__ == "__main__":
-    logger.info("Starting Flask health-check server…")
+    logger.info("Starting Flask health-check server...")
     start_server()
 
-    logger.info("Starting Pyrogram bot…")
+    logger.info("Starting Pyrogram bot...")
+
     try:
-        _loop.run_until_complete(run_bot())
+        loop.run_until_complete(run_bot())
     except KeyboardInterrupt:
         logger.info("Bot stopped by user.")
-    finally:
-        _loop.close()
+
+    # ❌ IMPORTANT: loop.close() REMOVED 
