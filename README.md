@@ -89,8 +89,7 @@ python run.py
 
 ### CAPTCHA Colors (16 total)
 🔴 Red · 🔵 Blue · 🟢 Green · 🟡 Yellow · 🟠 Orange · 🟣 Purple  
-⚪ White · ⚫ Black · 🟤 Brown · 🩷 Pink · 🩵 Cyan · 💚 Lime  
-❤️‍🔥 Magenta · 💛 Gold · 🩶 Silver · 🫐 Teal
+⚪ White · ⚫ Black · 🟤 Brown
 
 ### Bypass rules
 - **Owner** → always bypasses CAPTCHA
