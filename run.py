@@ -38,7 +38,7 @@ async def run_bot():
 
     logger.info("Bot is running...")
 
-    from pyrogram.idle import idle
+    from pyrogram import idle
     await idle()
 
     await app.stop()
