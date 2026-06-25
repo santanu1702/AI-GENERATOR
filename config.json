@@ -1,0 +1,8 @@
+{
+  "admins": [],
+  "force_join_channels": [],
+  "generation_limit": 3,
+  "captcha_enabled": false,
+  "captcha_cooldown_seconds": 1800,
+  "captcha_reverify_interval": 0
+}
