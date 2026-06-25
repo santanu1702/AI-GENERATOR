@@ -87,7 +87,7 @@ python run.py
 /setcaptchatime 604800  → re-verify every 7 days
 ```
 
-### CAPTCHA Colors (16 total)
+### CAPTCHA Colors (9 total)
 🔴 Red · 🔵 Blue · 🟢 Green · 🟡 Yellow · 🟠 Orange · 🟣 Purple  
 ⚪ White · ⚫ Black · 🟤 Brown
 
